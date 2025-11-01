@@ -10,17 +10,20 @@ public with sharing virtual class RazorpayOrderService {
 
     @AuraEnabled
     public static RazorpayOrdersWithPaymentEntity fetchAllOrders(Integer count){
-        return (RazorpayOrdersWithPaymentEntity) RazorpayGetRequestHelper.execute('RP_FETCH_ALL_ORDERS', new Map<String, String>{'{count}' => String.valueOf(count)});
+        return (RazorpayOrdersWithPaymentEntity) RazorpayGetRequestHelper.execute('RP_FETCH_ALL_ORDERS', 
+                                                                           new Map<String, String>{'{count}' => String.valueOf(count)});
     }
 
     @AuraEnabled
     public static RazorpayOrdersWithPaymentEntity fetchAllOrdersWithExpandedPayments(Integer count){
-         return (RazorpayOrdersWithPaymentEntity) RazorpayGetRequestHelper.execute('RP_FETCH_ALL_ORDERS_WITH_PAYMENTS', new Map<String, String>{'{count}'=> String.valueOf(count)});
+         return (RazorpayOrdersWithPaymentEntity) RazorpayGetRequestHelper.execute('RP_FETCH_ALL_ORDERS_WITH_PAYMENTS', 
+                                                                           new Map<String, String>{'{count}'=> String.valueOf(count)});
     }
 
     @AuraEnabled
     public static RazorpayOrdersWithPaymentEntity fetchAllOrdersWithExpandedCardPayments(Integer count){
-         return (RazorpayOrdersWithPaymentEntity) RazorpayGetRequestHelper.execute('RP_FETCH_ALL_ORDERS_WITH_CARD_PAYMENTS', new Map<String, String>{'{count}'=> String.valueOf(count)});
+         return (RazorpayOrdersWithPaymentEntity) RazorpayGetRequestHelper.execute('RP_FETCH_ALL_ORDERS_WITH_CARD_PAYMENTS', 
+                                                                           new Map<String, String>{'{count}'=> String.valueOf(count)});
     }
 
     @AuraEnabled
@@ -30,7 +33,8 @@ public with sharing virtual class RazorpayOrderService {
 
     @AuraEnabled
     public static RazorpayPaymentsEntity fetchPaymentsForAnOrder(String orderId){
-         return (RazorpayPaymentsEntity) RazorpayGetRequestHelper.execute('RP_PAYMENTS_FOR_AN_ORDER', new Map<String, String>{'{order_id}' => orderId});
+         return (RazorpayPaymentsEntity) RazorpayGetRequestHelper.execute('RP_PAYMENTS_FOR_AN_ORDER', 
+                                                                           new Map<String, String>{'{order_id}' => orderId});
     }
 
 }
