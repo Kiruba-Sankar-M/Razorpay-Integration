@@ -1,21 +1,11 @@
 public with sharing class CreateOrderBuilder {
 
-    private CreateOrderRequestEntity order;
-    private RazorpayRequestBuilder request;
+    private RazorpayOrderEntity order;
 
-    public CreateOrderBuilder(RazorpayRequestBuilder request){
-        this.order = new CreateOrderRequestEntity();
-        this.request = request;
-    }
-
-    public CreateOrderBuilder setAmount(Integer amount){
+    public CreateOrderBuilder(Integer amount, String currencyValue){
+        this.order = new RazorpayOrderEntity();
         this.order.amount = amount;
-        return this;
-    }
-
-    public CreateOrderBuilder setCurrency(String currencyValue){
         this.order.currencyValue = currencyValue;
-        return this;
     }
 
     public CreateOrderBuilder setReceipt(String receipt){
@@ -30,26 +20,14 @@ public with sharing class CreateOrderBuilder {
         return this;
     }
 
-    public CreateOrderResponseEntity execute(){
-        if (order.amount == null || order.currencyValue == null) {
-            throw new RazorpayException('Missing required fields: amount, currency.');
-        }
-
-        String requestBody = JSON.serialize(order).replace('currencyValue', 'currency'); //As currency is a reserved value, we can't have currecy as property name in the entity.
-
-        HttpResponse response = request.setEndpoint(RazorpayConstants.CREATE_ORDER_ENDPOINT)
-               .setMethod('POST')
-               .setBody(requestBody)
-               .send();
-
-        return convertToEntity(response);
+    public CreateOrderBuilder setNotes(Map<String, String> notes){
+        if(notes == null || notes.isEmpty()) return this;
+        this.order.notes.putAll(notes);
+        return this;
     }
 
-    private CreateOrderResponseEntity convertToEntity(HTTPResponse cloneResponse) {
-        if (RazorpayConstants.HTTP_SUCCESS_STATUS_CODES.contains(cloneResponse.getStatusCode())) {
-            return (CreateOrderResponseEntity) JSON.deserialize(cloneResponse.getBody(), CreateOrderResponseEntity.class);
-        } else {
-            throw new CalloutException(cloneResponse.getBody());
-        }
-    }
+    public RazorpayOrderEntity execute(){
+        Map<String, Object> body = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(this.order));
+        return (RazorpayOrderEntity) RazorpayPostRequestHelper.execute('RP_CREATE_ORDER', NULL, body);
+    }   
 }

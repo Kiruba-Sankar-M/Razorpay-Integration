@@ -1,0 +1,19 @@
+<template>
+    <lightning-card title="Checkout Example">
+
+        <c-razorpay-checkout class="hidden-util-component" key-id="rzp_test_RPOZHxdArbo7yi" name="Acme Corp"
+            description="Software Subscription" customer-name={customer.name} customer-email={customer.email}
+            customer-contact={customer.contact} onpaymentsuccess={handlePaymentSuccess}
+            onpaymentfailure={handlePaymentFailure}>
+        </c-razorpay-checkout>
+
+        <div class="slds-p-around_medium">
+            <p>Total Amount: **{paymentData.currency} {paymentData.amount}**</p>
+
+            <lightning-button label="Complete Payment" variant="brand" onclick={initiateCheckout}
+                class="slds-m-top_medium">
+            </lightning-button>
+        </div>
+
+    </lightning-card>
+</template>

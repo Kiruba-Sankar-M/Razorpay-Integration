@@ -1,3 +1,7 @@
 <template>
-    
+    <template if:true={isLoading}>
+        <div class="slds-m-around_medium">
+            <lightning-spinner alternative-text="Loading Payment Gateway..." size="small"></lightning-spinner>
+        </div>
+    </template>
 </template>

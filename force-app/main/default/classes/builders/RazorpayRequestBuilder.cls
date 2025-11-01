@@ -5,18 +5,30 @@ public with sharing class RazorpayRequestBuilder {
     private Map<String, String> headers;
     private Map<String, String> parameters;
     private String bodyAsString;
+    private Map<String, Object> bodyAsMap = new Map<String, Object>();
     private Blob bodyAsBlob;
     private String namedCredential;
 
-    public RazorpayRequestBuilder(String namedCredential) {
-        this.namedCredential = namedCredential;
+    public RazorpayRequestBuilder() {
+        System.debug('RazorpayRequestBuilder ' );
+        this.namedCredential = RazorpayAuthRetrieverHelper.getNamedCredential();
         this.headers = new Map<String, String>();
         this.parameters = new Map<String, String>();
     }
 
     public RazorpayRequestBuilder setEndpoint(String endpoint) {
-        this.endpoint = this.namedCredential + endpoint;
+        this.endpoint = 'callout:' + this.namedCredential  + endpoint;
         return this;
+    }
+
+    public RazorpayRequestBuilder setEndpoint(String endpoint, Map<String, String> replacer){
+        this.endpoint = 'callout:' + this.namedCredential  + endpoint;
+        if(replacer == NULL || replacer.isEmpty()) return this;
+        for(String replace : replacer.keySet()){
+            this.endpoint.replace(replace, replacer.get(replace));
+        }
+        return this;
+
     }
 
     public RazorpayRequestBuilder setMethod(String method) {
@@ -64,6 +76,13 @@ public with sharing class RazorpayRequestBuilder {
         return this;
     }
 
+    public RazorpayRequestBuilder setBody(Map<String, Object> body){
+        if(body == null || body.isEmpty()) return this;
+        this.bodyAsMap.putAll(body);
+        this.bodyAsString = JSON.serialize(this.bodyAsMap);
+        return this;
+    }
+
     public HTTPResponse send() {
         HttpRequest req = new HttpRequest();
         req.setMethod(this.method);
@@ -74,6 +93,15 @@ public with sharing class RazorpayRequestBuilder {
 
         Http http = new Http();
         return http.send(req);
+    }
+
+    public Boolean validate(HttpResponse response, Decimal successCode){
+        if(response.getStatusCode() == successCode){
+            return true;
+        }
+        else{
+            throw new CalloutException(response.getBody());
+        }
     }
 
     private void buildEndpointUrl(HttpRequest req) {
@@ -97,7 +125,6 @@ public with sharing class RazorpayRequestBuilder {
             req.setHeader(headerKey, headerParameter);
         }
     }
-
 
     private void buildEndpointBody(HttpRequest req) {
         if (String.isNotBlank(this.bodyAsString)) {
