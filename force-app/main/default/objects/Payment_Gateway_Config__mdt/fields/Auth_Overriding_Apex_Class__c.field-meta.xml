@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Auth_Overriding_Apex_Class__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Name of the Apex class that extends RazorpayAuth and overrides the getNamedCredential() method to return the named credential used for authentication.
+By default, the getNamedCredential() method in the RazorpayAuth class returns the value from
+Payment_Gateway_Config__mdt.getInstance(&apos;Razorpay_Config&apos;).Named_Credential__c.</inlineHelpText>
+    <label>Auth Overriding Apex Class</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

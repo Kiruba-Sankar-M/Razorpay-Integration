@@ -6,19 +6,16 @@ public class RazorpayRefundService {
         return (RazorpayRefundEntity) RazorpayPostRequestHelper.execute('RP_CREATE_NORMAL_REFUND', replacer, body);
     }
 
-
     public  RazorpayRefundEntity createInstantRefund(String paymentId, Integer amount, String receipt, Map<String, String> notes){
         Map<String, Object> body = new Map<String, Object>{'amount' => amount, 'receipt' => receipt, 'notes' => notes, 'speed' => 'optimum'};
         Map<String, String> replacer = new Map<String, String>{'{pay_id}' => paymentId};
         return (RazorpayRefundEntity) RazorpayPostRequestHelper.execute('RP_CREATE_INSTANT_REFUND', replacer, body);
     }
 
-
     public  RazorpayRefundEntity fetchAllRefunds(Integer count){
         return (RazorpayRefundEntity) RazorpayGetRequestHelper.execute('RP_FETCH_ALL_REFUNDS', 
                                                                           new Map<String, String>{'{count}' => String.valueOf(count)});
     } 
-
 
     public  RazorpayRefundEntity fetchRefundWithId(String refundId){
          return (RazorpayRefundEntity) RazorpayGetRequestHelper.execute('RP_FETCH_REFUND_WITH_ID', 

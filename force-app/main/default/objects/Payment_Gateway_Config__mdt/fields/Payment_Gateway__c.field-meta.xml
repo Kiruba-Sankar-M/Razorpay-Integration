@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_Gateway__c</fullName>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Payment Gateway</label>
+    <referenceTo>Payment_Gateway__mdt</referenceTo>
+    <relationshipLabel>Payment Gateway Config</relationshipLabel>
+    <relationshipName>Payment_Gateway_Config</relationshipName>
+    <required>false</required>
+    <type>MetadataRelationship</type>
+    <unique>false</unique>
+</CustomField>

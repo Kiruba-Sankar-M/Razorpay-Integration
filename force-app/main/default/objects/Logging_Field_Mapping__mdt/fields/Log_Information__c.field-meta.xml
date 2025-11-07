@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Log_Information__c</fullName>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Log Information</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>API Request Body</fullName>
+                <default>true</default>
+                <label>API Request Body</label>
+            </value>
+            <value>
+                <fullName>API Response Body</fullName>
+                <default>false</default>
+                <label>API Response Body</label>
+            </value>
+            <value>
+                <fullName>API Response Code</fullName>
+                <default>false</default>
+                <label>API Response Code</label>
+            </value>
+            <value>
+                <fullName>API Request Endpoint</fullName>
+                <default>false</default>
+                <label>API Request Endpoint</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
